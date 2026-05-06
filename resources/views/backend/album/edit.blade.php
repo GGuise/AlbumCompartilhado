@@ -7,7 +7,7 @@
     <li class="breadcrumb-item">
         <a href="{{ route('album.index') }}">Albums</a>
     </li>
-    <li class="breadcrumb-item active">Edit</li>
+    <li class="breadcrumb-item active">Editar</li>
 @endbreadcrumb
 
 
@@ -17,13 +17,13 @@
 
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
         <div class="bg-white p-3">
-                <h2>Edit Album</h2>
+                <h2>Editar Álbum</h2>
 
                 {{ photon_notification($errors)}}
             
             
             <div class="form-group">
-                        <label for="name">Name</label>
+                        <label for="name">Nome</label>
                     <input type="text" class="form-control" name="name" value="{{ $album->name }}">
                     </div>
     
@@ -34,11 +34,11 @@
 
             
             <div class="form-group bg-white p-3">
-                    <input type="submit" value="Update" class="btn btn-primary btn-block">
+                    <input type="submit" value="Atualizar" class="btn btn-primary btn-block">
                 </div>
 
                 <div class="form-group my-5 bg-white p-3">
-                    <img src="{{ photon_thumbnail($album->banner) }}" width="300" height="200">
+                    <img src="{{ photon_thumbnail($album->banner) }}" width="300" height="200" class="cropper-preview">
                     <label class="w-100">Banner</label>
                     <input type="file" name="banner" id="thumbnail">
                     <label class="mt-3">Or Banner Url</label>
@@ -53,5 +53,10 @@
 
          
     </form>
-
+@include('backend.layouts.partials.cropper')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    initCropper('input[name="banner"]');
+});
+</script>
 @endsection

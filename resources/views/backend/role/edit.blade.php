@@ -5,9 +5,9 @@
 
 @breadcrumb()
     <li class="breadcrumb-item">
-        <a href="{{ route('role.index') }}">roles</a>
+        <a href="{{ route('role.index') }}">Cargos</a>
     </li>
-    <li class="breadcrumb-item active">Edit</li>
+    <li class="breadcrumb-item active">Editar</li>
 @endbreadcrumb
 
 
@@ -17,38 +17,70 @@
 
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
         <div class="bg-white p-3">
-                <h2>Edit role</h2>
+                <h2>Editar Cargo</h2>
 
                 {{ photon_notification($errors)}}
             
             
             <div class="form-group">
-                        <label for="name">Name</label>
+                        <label for="name">Nome</label>
                     <input type="text" class="form-control" name="name" value="{{ $role->name }}">
                     </div>
 
                     <div class="form-group">
-                        <label for="display_name">Display Name</label>
+                        <label for="display_name">Nome de Exibição</label>
                     <input type="text" class="form-control" name="display_name" value="{{ $role->display_name }}">
                     </div>
 
                     <div class="form-group">
-                        <label for="description">Description</label>
+                        <label for="description">Descrição</label>
                     <input type="text" class="form-control" name="description" value="{{ $role->description }}">
                     </div>
 
                     <div class="form-group">
-                        <label for="permission">Permissions</label>
-                        <select name="permissions[]" class="form-control" multiple id="permission">
+                        <label for="permission">Permissões do Cargo</label>
+                        <div class="row">
+                            @php
+                                $groupedPermissions = $permissions->groupBy(function($perm) {
+                                    $parts = explode('-', $perm->name);
+                                    // Detectar módulo pelo sufixo do nome da permissão
+                                    if (str_contains($perm->name, 'shared-albums')) {
+                                        return 'Álbuns Compartilhados';
+                                    }
+                                    $module = count($parts) > 1 ? strtolower($parts[1]) : 'gerais';
+                                    $titles = [
+                                        'users' => 'Usuários',
+                                        'roles' => 'Cargos',
+                                        'albums' => 'Álbuns',
+                                        'photos' => 'Fotos',
+                                        'profile' => 'Perfil',
+                                        'services' => 'Serviços',
+                                        'gerais' => 'Gerais'
+                                    ];
+                                    return $titles[$module] ?? ucfirst($module);
+                                });
+                            @endphp
 
-                            @if (count($permissions) > 0)
-                                @foreach ($permissions as $permission)
-                        <option value="{{ $permission->name }}" {{ in_array($permission['id'],$role->permissions->pluck('id')->toArray()) ? 'selected' : '' }} >
-                            {{ $permission->display_name }}
-                        </option>
-                                @endforeach
-                            @endif
-                        </select>
+                            @foreach($groupedPermissions as $groupName => $perms)
+                                <div class="col-md-4 mb-4">
+                                    <div class="card shadow-sm h-100">
+                                        <div class="card-header bg-light font-weight-bold">
+                                            {{ $groupName }}
+                                        </div>
+                                        <div class="card-body p-3">
+                                            @foreach($perms as $permission)
+                                                <div class="custom-control custom-checkbox mb-2">
+                                                    <input type="checkbox" class="custom-control-input" id="perm_{{ $permission->id }}" name="permissions[]" value="{{ $permission->name }}" {{ in_array($permission['id'],$role->permissions->pluck('id')->toArray()) ? 'checked' : '' }}>
+                                                    <label class="custom-control-label" for="perm_{{ $permission->id }}" style="cursor: pointer;">
+                                                        {{ $permission->display_name }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
     
         </div>
@@ -58,7 +90,7 @@
 
             
             <div class="form-group bg-white p-3">
-                    <input type="submit" value="Update" class="btn btn-primary btn-block">
+                    <input type="submit" value="Atualizar" class="btn btn-primary btn-block">
                 </div>
 
             

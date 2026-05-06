@@ -3,6 +3,10 @@
 
 <a class="navbar-brand mr-1" href="{{ route('homepage') }}">{{setting('site_title')}}</a>
 
+<button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" style="margin-left: 10px;">
+  <i class="fas fa-bars"></i>
+</button>
+
 
     <!-- Navbar Search -->
     {{-- <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
@@ -23,11 +27,11 @@
           <i class="fas fa-user-circle fa-fw"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="{{ route('user.profile') }}">Settings</a>
+        <a class="dropdown-item" href="{{ route('user.profile') }}">Configurações</a>
           {{-- <a class="dropdown-item" href="#">Activity Log</a>
           <div class="dropdown-divider"></div> --}}
 
-          <a class="dropdown-item" href="#" data-toggle="modal" onclick="event.preventDefault();document.querySelector('#logout').submit();" data-target="#logoutModal">Logout</a>
+          <a class="dropdown-item" href="#" data-toggle="modal" onclick="event.preventDefault();document.querySelector('#logout').submit();" data-target="#logoutModal">Sair</a>
         <form id="logout" action="{{ route('logout') }}" method="POST">
         @csrf
         </form>

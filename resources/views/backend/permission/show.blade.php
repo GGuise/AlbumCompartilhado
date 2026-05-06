@@ -13,12 +13,12 @@
 
 <div class="bg-white p-3">
 
-    <h3>permission Details</h3>
+    <h3>Detalhes da Permissão</h3>
 
 {{ photon_notification($errors) }}
     <table class="table table-bordered text-center mt-4">
         <tr>
-            <th>Id</th>
+            <th>ID</th>
             
             <td>
                     {{ $permission->id }}
@@ -27,7 +27,7 @@
         </tr>
 
     <tr>
-            <th>Name</th>
+            <th>Nome</th>
             
             <td>
                     {{ $permission->name }}
@@ -45,7 +45,7 @@
         </tr>
 
         <tr>
-                <th>Description</th>
+                <th>Descrição</th>
                 
                 <td>
                     {{ $permission->description}}
@@ -55,7 +55,7 @@
     
         <tr>
             
-                <th>Actions</th>
+                <th>Ações</th>
 
         <td class="d-flex justify-content-center">
 
@@ -64,7 +64,7 @@
             @method('DELETE')
             <input type="submit" class="btn btn-danger" value="Del">
         </form>
-            <a href="{{ route('permission.edit',$permission->name) }}" class="btn btn-success ml-3">Edit</a>
+            <a href="{{ route('permission.edit',$permission->name) }}" class="btn btn-success ml-3">Editar</a>
 
         </td>
 

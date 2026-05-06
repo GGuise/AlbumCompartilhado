@@ -6,7 +6,7 @@
     <li class="breadcrumb-item">
         <a href="{{ route('user.index') }}">users</a>
     </li>
-    <li class="breadcrumb-item active">Edit</li>
+    <li class="breadcrumb-item active">Editar</li>
 @endbreadcrumb
 
 
@@ -18,7 +18,7 @@
 
             <div class="bg-white p-3">
 
-                    <h3>Edit user</h3>
+                    <h3>Editar Usuário</h3>
 
                     {{ photon_notification($errors)}}
 
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="form-group">
-                            <label for="email">Email</label>
+                            <label for="email">E-mail</label>
                             <input type="email" class="form-control" 
                             name="email" value="{{ $user->email }}">
                        </div>
@@ -58,7 +58,7 @@
             <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                     
                     <div class="form-group bg-white p-3">
-                            <input type="submit" value="Update" class="btn btn-primary btn-block">
+                            <input type="submit" value="Atualizar" class="btn btn-primary btn-block">
                         </div>
 
 

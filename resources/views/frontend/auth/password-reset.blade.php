@@ -10,7 +10,7 @@
 
             {{ cms_notification($errors) }}
 
-            <h4 class="mt-3">Reset Your Password</h4>
+            <h4 class="mt-3">Redefinir sua Senha</h4>
 
 
             <form action="{{ route('passwordReset') }}" method="post" class="shadow p-4 bg-white my-5">
@@ -19,24 +19,24 @@
 
             <input type="hidden" value="{{ $token }}" name="token">
               <div class="form-group">
-                <label for="email">Email</label>
+                <label for="email">E-mail</label>
                 <input type="email" name="email" id="email" class="form-control" 
-              placeholder="Type Email" aria-describedby="helpId" value="{{ $email }}">
+              placeholder="Digite o E-mail" aria-describedby="helpId" value="{{ $email }}">
               </div>
 
               <div class="form-group">
-                    <label for="password">New Password</label>
+                    <label for="password">Nova Senha</label>
                     <input type="password" name="password" id="password" class="form-control" 
-                  placeholder="Type password" aria-describedby="helpId">
+                  placeholder="Digite a nova senha" aria-describedby="helpId">
                   </div>
 
                   <div class="form-group">
-                        <label for="cpassword">Confirm Password</label>
+                        <label for="cpassword">Confirmar Senha</label>
                         <input type="password" name="password_confirmation" id="cpassword" class="form-control" 
-                      placeholder="Confirm password" aria-describedby="helpId">
+                      placeholder="Confirme a senha" aria-describedby="helpId">
                       </div>
             
-              <button type="submit" class="btn btn-primary">Reset Password</button>
+              <button type="submit" class="btn btn-primary">Redefinir Senha</button>
        
             </form>
           </div>

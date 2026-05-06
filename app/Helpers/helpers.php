@@ -5,7 +5,11 @@ use Illuminate\Support\Facades\DB;
 function photon_notification($errors){
     
     if(session()->has('message')):
-        echo '<div class="alert alert-'.session()->get('type').'">'.session()->get('message').'</div>';
+        echo '<div class="alert alert-'.session()->get('type').' alert-dismissible fade show" role="alert">'.session()->get('message').'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+    endif;
+
+    if(session()->has('status')):
+        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">'.session()->get('status').'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
     endif;
 
     if($errors->any()):
@@ -37,8 +41,29 @@ function photon_thumbnail($name){
 }
 
 
-function photon_image_process($request,$name){
+function photon_image_process($request, $name){
+    // Check if there is a cropped version (Base64 from Cropper.js)
+    $croppedName = 'cropped_' . $name;
+    if ($request->has($croppedName) && !empty($request->$croppedName)) {
+        $data = $request->$croppedName;
+        if (preg_match('/^data:image\/(\w+);base64,/', $data, $type)) {
+            $data = substr($data, strpos($data, ',') + 1);
+            $type = strtolower($type[1]); // jpg, png, etc
 
+            if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
+                throw new \Exception('invalid image type');
+            }
+
+            $data = base64_decode($data);
+            if ($data === false) {
+                throw new \Exception('base64_decode failed');
+            }
+
+            $imgName = sprintf('%s.%s', str_random(10), $type);
+            \Storage::disk('public')->put('images/' . $imgName, $data);
+            return $imgName;
+        }
+    }
     
     if($request->hasFile($name)){
 

@@ -43,9 +43,9 @@ class PasswordResetNotify extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('To Reset your apssword click below link')
-                    ->action('Notification Action', route('passwordReset',$this->token))
-                    ->line('Thank you for using our application!');
+                    ->line('Para redefinir a sua senha, clique no link abaixo.')
+                    ->action('Redefinir senha', route('passwordReset',$this->token))
+                    ->line('Capturando momentos, eternizando memórias!');
     }
 
     /**

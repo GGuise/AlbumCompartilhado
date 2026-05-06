@@ -4,12 +4,12 @@
 @section('content')
 
 @breadcrumb()
-    <li class="breadcrumb-item active">roles</li>
+    <li class="breadcrumb-item active">Cargos</li>
 @endbreadcrumb
 
 
 <div class="bg-white p-3">
-<h3>All roles</h3>
+<h3>Cargos</h3>
 
 {{ photon_notification($errors)}}
 
@@ -17,10 +17,10 @@
 
     <table class="table table-bordered text-center mt-4">
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>details</th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Detalhes</th>
         </tr>
 
             @foreach ($roles as $role)
@@ -38,7 +38,7 @@
                 </td>
 
                 <td>
-                    <a href="{{ route('role.show',$role->name) }}" class="btn btn-success">Details</a>
+                    <a href="{{ route('role.show',$role->name) }}" class="btn btn-success">Detalhes</a>
                     </td>
                 </tr>
                         
@@ -46,7 +46,7 @@
     </table>
     @else
     
-    <p class="bg-info">No role found yet</p>
+    <p class="bg-info">Nenhum cargo encontrado ainda</p>
 
     @endif
 </div>

@@ -35,7 +35,8 @@ class AuthController extends Controller
 
 
         $validator = Validator::make($request->all(),[
-            'email' => 'required|email',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
         ]);
 
@@ -53,6 +54,9 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
             'email_verification_token' => $token,
         ]);
+
+        // Atribuir cargo de Visitante
+        $user->attachRole('visitante');
 
         $user->notify(new VerifyMail($user));
         

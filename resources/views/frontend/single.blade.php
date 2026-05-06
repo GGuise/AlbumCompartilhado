@@ -2,7 +2,6 @@
 @section('content')
     
 
-
   <div class="site-section"  data-aos="fade">
     <div class="container-fluid">
       
@@ -21,14 +20,45 @@
          @if (count($album->photo) > 0)
 
             @foreach ($album->photo as $photo)
+              @php 
+                $ext = strtolower(pathinfo($photo->image, PATHINFO_EXTENSION));
+                $isVideo = in_array($ext, ['mp4', 'mov', 'avi', 'wmv', 'webm']);
+                $fileUrl = asset('storage/images/'.$photo->image);
+                $placeholderUrl = asset('frontend/images/video-placeholder.png');
+                $videoType = $ext == "mov" ? "mp4" : $ext;
+              @endphp
 
-            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 item" data-aos="fade" data-src="{{ asset('storage/images/'.$photo->image) }}" 
-                data-sub-html="<h4>{{ $photo->title }}</h4>
-                <p>
-                    {{ $photo->description }}
-                </p>">
-            <a href="#"><img src="{{ asset('storage/images/'.$photo->image) }}" alt="IMage" class="img-fluid"></a>
+            @if($isVideo)
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 item" data-aos="fade" 
+                 data-thumb="{{ $placeholderUrl }}"
+                 data-html="#video-p-{{ $photo->id }}"
+                 data-sub-html="<h4>{{ $photo->title }}</h4><p>{{ $photo->description }}</p>">
+
+              <div style="display:none;" id="video-p-{{ $photo->id }}">
+                  <video class="lg-video-object lg-html5" controls preload="none">
+                      <source src="{{ $fileUrl }}" type="video/{{ $videoType }}">
+                  </video>
               </div>
+
+              <a href="#">
+                <div class="position-relative">
+                  <img src="{{ $placeholderUrl }}" alt="{{ $photo->title }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;">
+                  <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.6); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                    <span style="color: white; font-size: 24px; margin-left: 4px;">&#9654;</span>
+                  </div>
+                </div>
+              </a>
+            </div>
+            @else
+            <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 item" data-aos="fade" 
+                 data-src="{{ $fileUrl }}"
+                 data-thumb="{{ $fileUrl }}"
+                 data-sub-html="<h4>{{ $photo->title }}</h4><p>{{ $photo->description }}</p>">
+              <a href="#">
+                <img src="{{ $fileUrl }}" alt="{{ $photo->title }}" class="img-fluid" style="height: 200px; width: 100%; object-fit: cover;">
+              </a>
+            </div>
+            @endif
                       
             @endforeach
              
@@ -38,20 +68,6 @@
     </div>
   </div>
 
-  <div class="footer py-4">
-    <div class="container-fluid text-center">
-      <p>
-      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-      Copyright &copy;<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-      </p>
-    </div>
-  </div>
 
-    
 
-    
-    
-  </div>
-
-  @endsection
+@endsection

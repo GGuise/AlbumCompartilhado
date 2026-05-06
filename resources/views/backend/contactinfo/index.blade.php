@@ -8,16 +8,16 @@
 @endbreadcrumb
 
 <div class="bg-white p-3">
-        <h3>All infos</h3>
+        <h3>Todas as Informações</h3>
         {{ photon_notification($errors)}}
 
     @if (count($infos) > 0 )
     <table class="table table-bordered text-center">
         <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>details</th>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Descrição</th>
+            <th>Detalhes</th>
         </tr>
 
             @foreach ($infos as $info)
@@ -35,7 +35,7 @@
                     </td>
 
                     <td>
-                    <a href="{{ route('contactinfo.show',$info->slug) }}" class="btn btn-success">Details</a>
+                    <a href="{{ route('contactinfo.show',$info->slug) }}" class="btn btn-success">Detalhes</a>
                     </td>
                 </tr>
                         
@@ -43,7 +43,7 @@
     </table>
     @else
     
-    <p class="bg-info">No album found yet</p>
+    <p class="bg-info">Nenhum álbum encontrado ainda</p>
 
     @endif
 

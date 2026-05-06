@@ -8,7 +8,7 @@
             <div class="col-md-7">
               <div class="row mb-5 site-section">
                 <div class="col-12 ">
-                  <h2 class="site-section-heading text-center">About Us</h2>
+                  <h2 class="site-section-heading text-center">Sobre Nós</h2>
                 </div>
               </div>
     
@@ -33,9 +33,24 @@
                           {{ $team->description }}
                         </p>
                         <p>
-                          <a href="#" class="pl-0 pr-3"><span class="icon-twitter"></span></a>
-                          <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
-                          <a href="#" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+                          @if($team->twitter)
+                            <a href="{{ $team->twitter }}" target="_blank" class="pl-0 pr-3"><span class="icon-twitter"></span></a>
+                          @endif
+                          @if($team->instagram)
+                            <a href="{{ $team->instagram }}" target="_blank" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+                          @endif
+                          @if($team->facebook)
+                            <a href="{{ $team->facebook }}" target="_blank" class="pl-3 pr-3"><span class="icon-facebook"></span></a>
+                          @endif
+                          @if($team->youtube)
+                            <a href="{{ $team->youtube }}" target="_blank" class="pl-3 pr-3"><span class="icon-youtube"></span></a>
+                          @endif
+                          @if($team->whatsapp)
+                            @php 
+                                $waNumber = preg_replace('/[^0-9]/', '', $team->whatsapp); 
+                            @endphp
+                            <a href="https://wa.me/{{ $waNumber }}" target="_blank" class="pl-3 pr-3"><span class="icon-whatsapp"></span></a>
+                          @endif
                         </p>
                       </div>
                               

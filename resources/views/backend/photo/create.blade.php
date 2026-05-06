@@ -7,7 +7,7 @@
     <li class="breadcrumb-item">
         <a href="{{ route('photo.index') }}">Photo</a>
     </li>
-    <li class="breadcrumb-item active">Create</li>
+    <li class="breadcrumb-item active">Criar</li>
 @endbreadcrumb
 
 
@@ -22,12 +22,12 @@
             <h3>Add Photo</h3>
             {{ photon_notification($errors)}}
                 <div class="form-group">
-                            <label for="title">Title</label>
+                            <label for="title">Título</label>
                             <input type="text" class="form-control" name="title">
                         </div>
                     
                         <div class="form-group">
-                                <label for="description">Description</label>
+                                <label for="description">Descrição</label>
                             <textarea name="description" class="form-control" rows="10"></textarea>
                             </div>
                     
@@ -37,7 +37,7 @@
     <div class="col-lg-4 col-md-4 col-sm-12 col-12">
     
             <div class="form-group bg-white p-3">
-                    <input type="submit" value="Create" class="btn btn-primary btn-block">
+                    <input type="submit" value="Criar" class="btn btn-primary btn-block">
                 </div>
             
                 <div class="form-group bg-white p-3">

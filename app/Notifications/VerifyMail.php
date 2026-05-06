@@ -42,10 +42,10 @@ class VerifyMail extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->greeting(sprintf('Hi , %s',$this->user->firstname))
-                    ->line('Your registration have been successfull , now verify your account from below link.')
-                    ->action('Verify Now', url(route('verify',$this->user->email_verification_token)))
-                    ->line('Thanks for using our CMS App!');
+            ->greeting(sprintf('Olá, %s', $this->user->firstname))
+            ->line('Seu registo foi efetuado com sucesso, agora verifique a sua conta através do link abaixo.')
+            ->action('Verificar Agora', url(route('verify', $this->user->email_verification_token)))
+            ->line('Capturando momentos, eternizando memórias!');
     }
 
     /**

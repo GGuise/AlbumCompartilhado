@@ -10,16 +10,29 @@ class AlbumController extends Controller
 {
 
     public function __construct(){
-        $this->middleware(['role:admin|superadministrator']);
+        $this->middleware(['permission:read-albums'])->only(['index', 'show']);
+        $this->middleware(['permission:create-albums'])->except(['index', 'show']);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {   
-        $data["albums"] = Album::latest()->paginate(10);
+        $user = auth()->user();
+        $canViewAll = $user->hasPermission('view-all-content') || $user->hasRole('superadministrator');
+        $isReadOnly = $user->hasPermission('read-albums') && !$user->hasPermission('create-albums');
+
+        if ($canViewAll || $isReadOnly) {
+            $albums = Album::latest()->get();
+            $sharedAlbums = \App\MeuAlbumCompartilhado::latest()->get();
+        } else {
+            $albums = Album::where('user_id', $user->id)->latest()->get();
+            $sharedAlbums = \App\MeuAlbumCompartilhado::where('user_id', $user->id)->latest()->get();
+        }
+
+        // Marcar cada um para saber o tipo na View
+        foreach($albums as $a) $a->tipo_album = 'normal';
+        foreach($sharedAlbums as $s) $s->tipo_album = 'compartilhado';
+
+        $data["albums"] = $albums->concat($sharedAlbums)->sortByDesc('created_at');
+        
         return view('backend.album.index',$data);
     }
 
@@ -43,17 +56,17 @@ class AlbumController extends Controller
     {
         $validation = $request->validate([
             'name' => 'required|string',
-            'bannner' => 'image'
+            'banner' => 'image'
         ]);
 
-        
-        $imgName = \photon_image_process($request,"banner");
+        $imgName = ($request->hasFile('banner') || $request->cropped_banner) ? \photon_image_process($request,"banner") : 'default.jpg';
 
 
         Album::create([
             'name' => $request->name,
             'slug' => str_slug($request->name),
-            'banner' => $imgName
+            'banner' => $imgName,
+            'user_id' => auth()->id()
         ]);
 
         return redirect()->route('album.index')->with('status','Album successfully created');
@@ -94,21 +107,14 @@ class AlbumController extends Controller
     {
         $validation = $request->validate([
             'name' => 'required|string',
-            'bannner' => 'image'
+            'banner' => 'image'
         ]);
 
         
-        if($request->banner){
-
-            $imgName = sprintf('%s%s.%s',str_random(10),
-            md5(time()),
-            $request->banner->extension());
-
-            $request->banner->storeAs('images',$imgName);
+        if($request->banner || $request->cropped_banner){
+            $imgName = \photon_image_process($request, "banner");
         }else{
-            
             $imgName = $album->banner;
-            
         }
 
 
@@ -118,7 +124,7 @@ class AlbumController extends Controller
             'banner' => $imgName
         ]);
 
-        return redirect('/home/album')->with('status','Album updated successfully');
+        return redirect()->route('album.index')->with('status','Album updated successfully');
     }
 
     /**
@@ -130,7 +136,7 @@ class AlbumController extends Controller
     public function destroy(Album $album)
     {
         $album->delete();
-        return redirect('/home/album')->with('status','Album deleted successfully');
+        return redirect()->route('album.index')->with('status','Album deleted successfully');
     }
 
 
@@ -149,5 +155,53 @@ class AlbumController extends Controller
         return view('single',$data);
     }
 
-    
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'album_ids' => 'required|array',
+        ]);
+
+        $deletedCount = 0;
+        foreach ($request->album_ids as $item) {
+            $parts = explode('_', $item);
+            $tipo = $parts[0];
+            $id = $parts[1];
+
+            if ($tipo == 'normal') {
+                $a = Album::find($id);
+                if($a) { $a->delete(); $deletedCount++; }
+            } else {
+                $s = \App\MeuAlbumCompartilhado::find($id);
+                if($s) { $s->delete(); $deletedCount++; }
+            }
+        }
+
+        return redirect()->back()->with('status', "{$deletedCount} álbum(ns) excluído(s) com sucesso!");
+    }
+
+    public function bulkToggleUploads(Request $request)
+    {
+        $request->validate([
+            'album_ids' => 'required|array',
+            'status' => 'required|in:0,1'
+        ]);
+
+        $status = $request->status;
+        $updatedCount = 0;
+
+        foreach ($request->album_ids as $item) {
+            $parts = explode('_', $item);
+            if ($parts[0] == 'compartilhado') {
+                $id = $parts[1];
+                $s = \App\MeuAlbumCompartilhado::find($id);
+                if($s) {
+                    $s->update(['aceita_uploads' => $status]);
+                    $updatedCount++;
+                }
+            }
+        }
+
+        $statusText = $status ? 'ativados' : 'desativados';
+        return redirect()->back()->with('status', "Uploads de {$updatedCount} álbuns compartilhados foram {$statusText}!");
+    }
 }

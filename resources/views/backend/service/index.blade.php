@@ -3,21 +3,21 @@
 @section('content')
 
 @breadcrumb()
-    <li class="breadcrumb-item active">Services</li>
+    <li class="breadcrumb-item active">Serviços</li>
 @endbreadcrumb
 
 <div class="bg-white p-3">
-<h3>All Services</h3>
+<h3>Todos os Serviços</h3>
 
 {{ photon_notification($errors) }}
 
     @if (count($ourservices) > 0 )
     <table class="table table-bordered text-center">
         <tr>
-            <th>Id</th>
-            <th>Image</th>
-            <th>Title</th>
-            <th>details</th>
+            <th>ID</th>
+            <th>Imagem</th>
+            <th>Título</th>
+            <th>Detalhes</th>
         </tr>
 
             @foreach ($ourservices as $service)
@@ -34,7 +34,7 @@
                 </td>
 
                     <td>
-                    <a href="{{ route('service.show',$service->slug) }}" class="btn btn-success">Details</a>
+                    <a href="{{ route('service.show',$service->slug) }}" class="btn btn-success">Detalhes</a>
                     </td>
                 </tr>
                         
@@ -42,7 +42,7 @@
     </table>
     @else
     
-    <p class="bg-info">No photo found yet</p>
+    <p class="bg-info">Nenhuma foto encontrada ainda</p>
 
     @endif
 

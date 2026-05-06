@@ -18,7 +18,7 @@ class NewUserNotification extends Notification
      *
      * @return void
      */
-    public function __construct($user,$password)
+    public function __construct($user, $password)
     {
         $this->user = $user;
         $this->password = $password;
@@ -44,11 +44,12 @@ class NewUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('Your account is created, now set your password by clicking below link')
-                    ->line('Your email is '.$this->user->email)
-                    ->line('Your Temperory password is  '.$this->password)
-                    ->action('Notification Action', route('verify',$this->user->email_verification_token))
-                    ->line('Thank you for using our application!');
+            ->greeting(sprintf('Olá , %s', $this->user->firstname))
+            ->line('Seu registo foi efetuado com sucesso, agora defina sua senha clicando no link abaixo.')
+            ->line('Seu email é ' . $this->user->email)
+            ->line('Sua senha temporária é  ' . $this->password)
+            ->action('Definir senha agora', route('verify', $this->user->email_verification_token))
+            ->line('Capturando momentos, eternizando memórias!');
     }
 
     /**

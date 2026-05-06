@@ -9,3 +9,15 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+google-service-account.json
+*.json
+*.txt
+*.log
+change_role.php
+check_settings.php
+create_db.php
+list_users.php
+seed_social_settings.php
+setup_global_view.php
+test_shared_album.php
+translate_backend*.php

@@ -6,7 +6,7 @@
     <li class="breadcrumb-item">
         <a href="{{ route('photo.index') }}">Photo</a>
     </li>
-    <li class="breadcrumb-item active">Edit</li>
+    <li class="breadcrumb-item active">Editar</li>
 @endbreadcrumb
 
 <form action="{{ route('photo.update',$photo) }}" method="POST" enctype="multipart/form-data" class="row">
@@ -17,13 +17,13 @@
 
                 <div class="bg-white p-3">
 
-                                <h2>Edit photo</h2>
+                                <h2>Editar Foto</h2>
 
                                 {{ photon_notification($errors)}}
                                 
 
                                 <div class="form-group">
-                                                <label for="title">Title</label>
+                                                <label for="title">Título</label>
                                             <input type="text" 
                                             class="form-control" name="title" 
                                             value="{{ $photo->title }}">
@@ -31,7 +31,7 @@
 
                                             
                                             <div class="form-group">
-                                                        <label for="description">Description</label>
+                                                        <label for="description">Descrição</label>
                                               
                                                     <textarea name="description" id="description" 
                                                     class="form-control" rows="10">
@@ -44,7 +44,7 @@
 
         <div class="col-lg-4 col-md-4 col-sm-12 col-12">
                         <div class="form-group bg-white p-3">
-                                        <input type="submit" value="Update" class="btn btn-primary btn-block">
+                                        <input type="submit" value="Atualizar" class="btn btn-primary btn-block">
                                     </div>
         
 <div class="form-group  bg-white p-3">

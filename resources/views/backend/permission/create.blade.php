@@ -7,7 +7,7 @@
     <li class="breadcrumb-item">
         <a href="{{ route('permission.index') }}">Permission</a>
     </li>
-    <li class="breadcrumb-item active">Create</li>
+    <li class="breadcrumb-item active">Criar</li>
 @endbreadcrumb
 
 
@@ -19,19 +19,19 @@
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
             {{ photon_notification($errors)}}
             <div class="bg-white p-3">
-            <h3>Create permission</h3>
+            <h3>Criar Permissão</h3>
 
         <div class="form-group">
-                    <label for="name">Name</label>
+                    <label for="name">Nome</label>
                     <input type="text" class="form-control" name="name">
                 </div>
                 <div class="form-group">
-                    <label for="name">Display Name</label>
+                    <label for="name">Nome de Exibição</label>
                     <input type="text" class="form-control" name="display_name">
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Description</label>
+                    <label for="description">Descrição</label>
                     <input type="text" class="form-control" name="description">
                 </div>
 
@@ -39,7 +39,7 @@
     </div>
     <div class="col-lg-4 col-md-4 col-sm-12 col-12">
             <div class="form-group bg-white p-3">
-                    <input type="submit" value="Create" class="btn btn-primary btn-block">
+                    <input type="submit" value="Criar" class="btn btn-primary btn-block">
                 </div>
     
     </div>

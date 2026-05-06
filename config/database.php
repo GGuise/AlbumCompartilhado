@@ -11,9 +11,10 @@ if($url['path']){
 }else{
 
     $host = env('DB_HOST', '127.0.0.1');
-    $username = env('DB_DATABASE', 'forge');
-    $password = env('DB_USERNAME', 'forge');
-    $database = env('DB_PASSWORD', '');
+    $port = env('DB_PORT', '5432');
+    $username = env('DB_USERNAME', 'forge');
+    $password = env('DB_PASSWORD', '');
+    $database = env('DB_DATABASE', 'forge');
     
 }
 
@@ -78,6 +79,7 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => $host,
+            'port' => $port,
             'database' =>  $database,
             'username' =>  $username,
             'password' =>  $password,

@@ -7,7 +7,7 @@
     <li class="breadcrumb-item">
         <a href="{{ route('settings.index') }}">settings</a>
     </li>
-    <li class="breadcrumb-item active">Edit</li>
+    <li class="breadcrumb-item active">Editar</li>
 @endbreadcrumb
 
 
@@ -17,19 +17,19 @@
 
     <div class="col-lg-8 col-md-8 col-sm-12 col-12">
         <div class="bg-white p-3">
-                <h2>Edit setting</h2>
+                <h2>Editar Configuração</h2>
 
                 {{ photon_notification($errors)}}
             
             
             <div class="form-group">
-                        <label for="key">Key</label>
+                        <label for="key">Chave</label>
                     <input type="text" class="form-control" name="key" 
                     value="{{ $setting->key }}">
                     </div>
 
                     <div class="form-group">
-                        <label for="display_name">Display Name</label>
+                        <label for="display_name">Nome de Exibição</label>
                     <input type="text" class="form-control" name="display_name" 
                     value="{{ $setting->display_name }}">
                     </div>
@@ -48,7 +48,7 @@
 
             
             <div class="form-group bg-white p-3">
-                    <input type="submit" value="Update" class="btn btn-primary btn-block">
+                    <input type="submit" value="Atualizar" class="btn btn-primary btn-block">
                 </div>
 
             

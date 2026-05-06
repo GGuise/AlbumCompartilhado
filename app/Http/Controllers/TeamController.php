@@ -54,10 +54,15 @@ class TeamController extends Controller
         
         
         $post = Team::create([
-          'name' => $request->name,
-         'slug' => str_slug($request->name),
-        'description' => $request->description,
-        'thumbnail' => $imgName,
+           'name' => $request->name,
+           'slug' => str_slug($request->name),
+           'description' => $request->description,
+           'thumbnail' => $imgName,
+           'instagram' => $request->instagram,
+           'facebook' => $request->facebook,
+           'twitter' => $request->twitter,
+           'youtube' => $request->youtube,
+           'whatsapp' => $request->whatsapp,
         ]);
         
         
@@ -103,24 +108,34 @@ class TeamController extends Controller
         ]);
 
         
-       $imgName = photon_thumbnail($request,"thumbnail");
+        $imgName = \photon_image_process($request,"thumbnail");
 
-       if($request->hasFile("thumbnail")){
-        $team->update([
-            'name' => $request->name,
-            'slug' => str_slug($request->name),
-            'description' => $request->description,
-            'thumbnail' => $imgName
-        ]);
+        if($request->hasFile("thumbnail")){
+            $team->update([
+                'name' => $request->name,
+                'slug' => str_slug($request->name),
+                'description' => $request->description,
+                'thumbnail' => $imgName,
+                'instagram' => $request->instagram,
+                'facebook' => $request->facebook,
+                'twitter' => $request->twitter,
+                'youtube' => $request->youtube,
+                'whatsapp' => $request->whatsapp,
+            ]);
 
-       }else{
-        $team->update([
-            'name' => $request->name,
-            'slug' => str_slug($request->name),
-            'description' => $request->description,
-        ]);
+        }else{
+            $team->update([
+                'name' => $request->name,
+                'slug' => str_slug($request->name),
+                'description' => $request->description,
+                'instagram' => $request->instagram,
+                'facebook' => $request->facebook,
+                'twitter' => $request->twitter,
+                'youtube' => $request->youtube,
+                'whatsapp' => $request->whatsapp,
+            ]);
 
-       }
+        }
 
         return redirect()->route('team.show',$team->slug)->with('status','Album updated successfully');
 
@@ -138,5 +153,17 @@ class TeamController extends Controller
         session()->flash('type','success');
         session()->flash('message','Team deleted successfully');
         return redirect()->route('team.index');
+    }
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'team_ids' => 'required|array',
+            'team_ids.*' => 'integer|exists:teams,id'
+        ]);
+
+        Team::whereIn('id', $request->team_ids)->delete();
+
+        $count = count($request->team_ids);
+        return redirect()->route('team.index')->with('status', "{$count} membro(s) da equipe excluído(s) com sucesso!");
     }
 }

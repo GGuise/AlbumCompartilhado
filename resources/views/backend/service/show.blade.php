@@ -11,12 +11,12 @@
 
 
 <div class="container">
-<h2>Service Details</h2>
+<h2>Detalhes do Serviço</h2>
 
 {{ photon_notification($errors) }}
     <table class="table table-bordered text-center">
         <tr>
-            <th>Id</th>
+            <th>ID</th>
             
             <td>
                     {{ $service->id }}
@@ -25,7 +25,7 @@
         </tr>
 
     <tr>
-            <th>Title</th>
+            <th>Título</th>
             
             <td>
                     {{ $service->title }}
@@ -34,7 +34,7 @@
         </tr>
 
         <tr>
-                <th>Image</th>
+                <th>Imagem</th>
                 
                 <td>
                         <img src="{{ photon_thumbnail($service->thumbnail) }}" width="100" height="100">
@@ -44,7 +44,7 @@
     
 
             <tr>
-                    <th>Description</th>
+                    <th>Descrição</th>
                     
                     <td>
                         {{ $service->description }}
@@ -55,7 +55,7 @@
 
                 <tr>
             
-                <th>Actions</th>
+                <th>Ações</th>
 
         <td class="d-flex justify-content-center">
 
@@ -64,7 +64,7 @@
             @method('DELETE')
             <input type="submit" class="btn btn-danger" value="Del">
         </form>
-            <a href="{{ route('service.edit',$service->slug) }}" class="btn btn-success ml-3">Edit</a>
+            <a href="{{ route('service.edit',$service->slug) }}" class="btn btn-success ml-3">Editar</a>
 
         </td>
 

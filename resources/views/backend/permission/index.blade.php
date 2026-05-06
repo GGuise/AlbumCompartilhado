@@ -4,12 +4,12 @@
 @section('content')
 
 @breadcrumb()
-    <li class="breadcrumb-item active">Permissions</li>
+    <li class="breadcrumb-item active">Permissões</li>
 @endbreadcrumb
 
 
 <div class="bg-white p-3">
-<h3>All Permissions</h3>
+<h3>Todas as Permissões</h3>
 
 
 {{ photon_notification($errors)}}
@@ -18,10 +18,10 @@
 
     <table class="table table-bordered text-center mt-4">
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>details</th>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Detalhes</th>
         </tr>
 
             @foreach ($permissions as $permission)
@@ -39,7 +39,7 @@
                 </td>
 
                 <td>
-                    <a href="{{ route('permission.show',$permission->name) }}" class="btn btn-success">Details</a>
+                    <a href="{{ route('permission.show',$permission->name) }}" class="btn btn-success">Detalhes</a>
                     </td>
                 </tr>
                         
@@ -47,7 +47,7 @@
     </table>
     @else
     
-    <p class="bg-info">No permission found yet</p>
+    <p class="bg-info">Nenhuma permissão encontrada ainda</p>
 
     @endif
 </div>
