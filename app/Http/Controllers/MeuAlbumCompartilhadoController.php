@@ -62,9 +62,15 @@ class MeuAlbumCompartilhadoController extends Controller
             $driveFolderId = $driveService->createFolder($folderName);
         }
 
+        $slug = str_slug($request->titulo);
+        // Verifica se já existe um slug igual
+        if (MeuAlbumCompartilhado::where('slug', $slug)->exists()) {
+            $slug = $slug . '-' . str_random(4);
+        }
+
         MeuAlbumCompartilhado::create([
             'titulo' => $request->titulo,
-            'slug' => str_slug($request->titulo) . '-' . time(),
+            'slug' => $slug,
             'foto_topo' => $imgName,
             'foto_topo_web' => $fotoWeb,
             'foto_topo_mobile' => $fotoMobile,
