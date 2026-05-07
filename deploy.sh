@@ -34,8 +34,12 @@ docker exec eternizar-app php artisan config:clear
 docker exec eternizar-app php artisan view:clear
 docker exec eternizar-app php artisan cache:clear
 
-# 6. Limpeza de disco
-echo -e "${BLUE}6. Limpando imagens antigas...${NC}"
+# 6. Permissões de Storage e Cache
+echo -e "${BLUE}6. Ajustando permissões de storage e cache...${NC}"
+chmod -R 777 storage bootstrap/cache
+
+# 7. Limpeza de disco
+echo -e "${BLUE}7. Limpando imagens antigas...${NC}"
 docker system prune -f
 
 echo -e "${GREEN}===> DEPLOY FINALIZADO COM SUCESSO! <===${NC}"
