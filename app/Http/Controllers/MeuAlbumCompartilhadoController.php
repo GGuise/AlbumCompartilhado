@@ -9,10 +9,10 @@ use Illuminate\Http\Request;
 class MeuAlbumCompartilhadoController extends Controller
 {
     public function __construct(){
-        $this->middleware(['permission:read-shared-albums'])->only(['index', 'show']);
-        $this->middleware(['permission:create-shared-albums'])->only(['create', 'store', 'uploadFotos', 'uploadFotosAjax']);
-        $this->middleware(['permission:edit-shared-albums'])->only(['edit', 'update']);
-        $this->middleware(['permission:delete-shared-albums'])->only(['destroy', 'destroyFoto']);
+        $this->middleware(['permission:read-meualbumcompartilhado'])->only(['index', 'show']);
+        $this->middleware(['permission:create-meualbumcompartilhado'])->only(['create', 'store', 'uploadFotos', 'uploadFotosAjax']);
+        $this->middleware(['permission:update-meualbumcompartilhado'])->only(['edit', 'update']);
+        $this->middleware(['permission:delete-meualbumcompartilhado'])->only(['destroy', 'destroyFoto']);
     }
 
     public function index()
