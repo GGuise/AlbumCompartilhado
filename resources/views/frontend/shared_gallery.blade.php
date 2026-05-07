@@ -71,6 +71,13 @@
                   $is_video = false;
                   $videoExtensions = ['mp4', 'mov', 'avi', 'wmv', 'webm', 'm4v'];
                   $ext = pathinfo($foto->foto_path, PATHINFO_EXTENSION);
+                  $mimeType = 'video/' . strtolower($ext);
+                  
+                  // Normalização para formatos comuns
+                  if (in_array(strtolower($ext), ['mov', 'm4v', 'quicktime'])) {
+                      $mimeType = 'video/mp4';
+                  }
+
                   if (in_array(strtolower($ext), $videoExtensions)) {
                       $is_video = true;
                   }
@@ -79,7 +86,7 @@
               <div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 item" 
                    data-aos="fade" 
                    @if($is_video) 
-                        data-video='{"source": [{"src":"{{ asset('storage/images/'.$foto->foto_path) }}", "type":"video/{{ $ext }}"}], "attributes": {"preload": false, "controls": true}}'
+                        data-video='{"source": [{"src":"{{ asset('storage/images/'.$foto->foto_path) }}", "type":"{{ $mimeType }}"}], "attributes": {"preload": false, "controls": true}}'
                         data-poster="{{ asset('frontend/images/video-placeholder.png') }}"
                         data-sub-html="<h4>Enviado por: {{ $foto->remetente_nome ?? 'Anônimo' }}</h4><p>{{ $foto->remetente_mensagem }}</p>" 
                    @else 
@@ -90,8 +97,8 @@
                 <a href="#">
                     @if($is_video)
                         <div class="video-thumbnail-wrapper">
-                            <video class="img-fluid" style="object-fit: cover; height: 250px; width: 100%;">
-                                <source src="{{ asset('storage/images/'.$foto->foto_path) }}" type="video/{{ $ext }}">
+                            <video class="img-fluid" style="object-fit: cover; height: 250px; width: 100%;" preload="metadata">
+                                <source src="{{ asset('storage/images/'.$foto->foto_path) }}#t=0.1" type="{{ $mimeType }}">
                             </video>
                             <div class="video-overlay">
                                 <span class="icon-play-circle"></span>
