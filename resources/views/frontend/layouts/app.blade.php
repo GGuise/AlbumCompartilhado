@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300i,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="{{ asset('fonts/icomoon/style.css') }}">
 
   <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('css/magnific-popup.css')}}">
@@ -127,11 +127,25 @@
 
       // Auto-gerador de miniaturas para vídeos (Melhorado)
       function generateVideoThumbnails() {
-        $('.item[data-html]').each(function() {
+        $('.item[data-html], .item[data-video]').each(function() {
           var item = $(this);
-          var videoId = item.attr('data-html').replace('#', '');
-          var videoSource = $('#' + videoId).find('source').attr('src');
+          var videoSource = '';
+          
+          if (item.attr('data-html')) {
+            var videoId = item.attr('data-html').replace('#', '');
+            videoSource = $('#' + videoId).find('source').attr('src');
+          } else if (item.attr('data-video')) {
+            try {
+              var videoData = JSON.parse(item.attr('data-video'));
+              videoSource = videoData.source[0].src;
+            } catch(e) { console.log("Erro ao parsear data-video", e); }
+          }
+
           var imgElement = item.find('img');
+          if (!imgElement.length) {
+            // Se não tem img, tenta procurar o elemento de vídeo de preview
+            imgElement = item.find('video');
+          }
           
           if (videoSource && imgElement.length) {
             var video = document.createElement('video');
@@ -139,7 +153,7 @@
             video.crossOrigin = 'anonymous';
             video.preload = 'metadata';
             video.muted = true;
-            video.currentTime = 1.5; // Um pouco mais à frente para garantir imagem
+            video.currentTime = 1.5;
             
             video.addEventListener('seeked', function() {
               var canvas = document.createElement('canvas');
@@ -150,7 +164,12 @@
               
               try {
                 var dataUrl = canvas.toDataURL('image/jpeg', 0.7);
-                imgElement.attr('src', dataUrl);
+                if (imgElement.is('img')) {
+                    imgElement.attr('src', dataUrl);
+                } else if (imgElement.is('video')) {
+                    // Se for um elemento de vídeo, podemos substituir por uma imagem ou usar o poster
+                    imgElement.attr('poster', dataUrl);
+                }
                 item.attr('data-thumb', dataUrl);
               } catch(e) {
                 console.log("Erro ao gerar thumb (CORS?):", e);

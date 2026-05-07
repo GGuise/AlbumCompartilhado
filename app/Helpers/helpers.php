@@ -51,12 +51,12 @@ function photon_image_process($request, $name){
             $type = strtolower($type[1]); // jpg, png, etc
 
             if (!in_array($type, ['jpg', 'jpeg', 'gif', 'png'])) {
-                throw new \Exception('invalid image type');
+                throw new \Exception('Tipo de imagem inválido.');
             }
 
             $data = base64_decode($data);
             if ($data === false) {
-                throw new \Exception('base64_decode failed');
+                throw new \Exception('Falha ao processar imagem base64.');
             }
 
             $imgName = sprintf('%s.%s', str_random(10), $type);
@@ -66,56 +66,35 @@ function photon_image_process($request, $name){
     }
     
     if($request->hasFile($name)){
-
-        $validator = validator()->make($request->all(),[
+        $validator = validator()->make($request->all(), [
             $name  => 'image',
-       ]);
+        ]);
 
         if($validator->fails()){
-
-            return redirect()->back()->withErrors($validator);
+            throw new \Exception($validator->errors()->first());
         }
 
-
-        $imgName = sprintf('%s.%s',str_random(10),$request->$name->extension());
-        
-        $request->$name->storeAs('images',$imgName);
-
-
-    }else{
-
-        $thumbUrl = sprintf("%s_url",$name);
+        $imgName = sprintf('%s.%s', str_random(10), $request->$name->extension());
+        $request->$name->storeAs('images', $imgName, 'public');
+    } else {
+        $thumbUrl = sprintf("%s_url", $name);
            
-            if($request->$thumbUrl){
-
-                //    Thumbnail URl Process Start
-
-                $validator = validator()->make($request->all(),[
-                    $thumbUrl  => 'active_url',
-               ]);
-        
-                if($validator->fails()){
-        
-                    return redirect()->back()->withErrors($validator);
-                }
-
-                
-                $imgName =  $request->$thumbUrl;
-
-                //    Thumbnail URl Process End
-     
-            }else{
-
-                $imgName = 'default.jpg';
-
-            }
+        if($request->$thumbUrl){
+            $validator = validator()->make($request->all(), [
+                $thumbUrl  => 'active_url',
+            ]);
     
+            if($validator->fails()){
+                throw new \Exception('A URL da imagem fornecida não é válida.');
+            }
 
-
+            $imgName = $request->$thumbUrl;
+        } else {
+            $imgName = 'default.jpg';
+        }
     }
 
     return $imgName;
-
 }
 
 
