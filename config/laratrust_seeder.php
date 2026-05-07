@@ -9,7 +9,7 @@ return [
             'teams' => 'c,r,u,d',
             'services' => 'c,r,u,d',
             'contactinfos' => 'c,r,u,d',
-            'meualbumcompartilhado' => 'c,r,u,d',
+            'meualbumcompartilhado' => 'c,r,u,d,a,v',
             'acl' => 'c,r,u,d',
             'profile' => 'r,u'
         ],
@@ -20,7 +20,7 @@ return [
             'teams' => 'c,r,u,d',
             'services' => 'c,r,u,d',
             'contactinfos' => 'c,r,u,d',
-            'meualbumcompartilhado' => 'c,r,u,d',
+            'meualbumcompartilhado' => 'c,r,u,d,a,v',
             'profile' => 'r,u'
         ],
         'contributor' => [
@@ -38,6 +38,8 @@ return [
         'c' => 'create',
         'r' => 'read',
         'u' => 'update',
-        'd' => 'delete'
+        'd' => 'delete',
+        'a' => 'activate-uploads',
+        'v' => 'view-all-content'
     ]
 ];
