@@ -12,20 +12,53 @@ class SettingTableSeeder extends Seeder
      */
     public function run()
     {
-        Setting::create([
-            'key' => 'site_title',
-            'display_name' => 'Site Title',
-            'slug' => str_slug('Site Title'),
-            'value' => 'PhotoGallery',
-        ]);
+        $settings = [
+            [
+                'key' => 'site_title',
+                'display_name' => 'Site Title',
+                'value' => 'Eternizar',
+            ],
+            [
+                'key' => 'site_copyright',
+                'display_name' => 'Copyright Text',
+                'value' => 'Backend By @ <a href="https://github.com/gguisesoares" target="_blank">Gregory Guise Soares</a>',
+            ],
+            [
+                'key' => 'footer_description',
+                'display_name' => 'Footer Description',
+                'value' => 'Capturando momentos, eternizando memórias.',
+            ],
+            [
+                'key' => 'social_facebook',
+                'display_name' => 'Facebook URL',
+                'value' => '#',
+            ],
+            [
+                'key' => 'social_twitter',
+                'display_name' => 'Twitter URL',
+                'value' => '#',
+            ],
+            [
+                'key' => 'social_instagram',
+                'display_name' => 'Instagram URL',
+                'value' => '#',
+            ],
+            [
+                'key' => 'social_linkedin',
+                'display_name' => 'LinkedIn URL',
+                'value' => '#',
+            ],
+        ];
 
-        Setting::create([
-            'key' => 'site_copyright',
-            'display_name' => 'Copyright Text',
-            'slug' => str_slug('Copyright Text'),
-            'value' => 'Backend By @ <a href="https://github.com/tawhid-coder" target="_blank">
-            Tawhidul Islam Khan</a>',
-        ]);
-
+        foreach ($settings as $setting) {
+            Setting::updateOrCreate(
+                ['key' => $setting['key']],
+                [
+                    'display_name' => $setting['display_name'],
+                    'slug' => str_slug($setting['display_name']),
+                    'value' => $setting['value'],
+                ]
+            );
+        }
     }
 }
