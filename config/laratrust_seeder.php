@@ -9,6 +9,7 @@ return [
             'teams' => 'c,r,u,d',
             'services' => 'c,r,u,d',
             'contactinfos' => 'c,r,u,d',
+            'meualbumcompartilhado' => 'c,r,u,d',
             'acl' => 'c,r,u,d',
             'profile' => 'r,u'
         ],
@@ -19,6 +20,7 @@ return [
             'teams' => 'c,r,u,d',
             'services' => 'c,r,u,d',
             'contactinfos' => 'c,r,u,d',
+            'meualbumcompartilhado' => 'c,r,u,d',
             'profile' => 'r,u'
         ],
         'contributor' => [

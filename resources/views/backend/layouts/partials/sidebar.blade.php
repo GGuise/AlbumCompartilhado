@@ -24,14 +24,14 @@
                     </div>
                   </li>
 
-                  @permission('read-shared-albums')
+                  @permission('read-meualbumcompartilhado')
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="pagesDropdownShared" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i class="fas fa-fw fa-share-alt"></i>
                       <span>Álbuns Compartilhados</span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="pagesDropdownShared">
-                    @permission('create-shared-albums')
+                    @permission('create-meualbumcompartilhado')
                     <a class="dropdown-item" href="{{ route('meu-album-compartilhado.create') }}">Adicionar Compartilhado</a>
                     @endpermission
                     <a class="dropdown-item" href="{{ route('meu-album-compartilhado.index') }}">Todos Compartilhados</a>
