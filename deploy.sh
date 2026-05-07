@@ -29,10 +29,10 @@ sleep 5
 
 # 5. Rodar migrações e limpar caches
 echo -e "${BLUE}5. Executando comandos internos do Laravel...${NC}"
-docker exec laravel-app php artisan migrate --force
-docker exec laravel-app php artisan config:clear
-docker exec laravel-app php artisan view:clear
-docker exec laravel-app php artisan cache:clear
+docker exec eternizar-app php artisan migrate --force
+docker exec eternizar-app php artisan config:clear
+docker exec eternizar-app php artisan view:clear
+docker exec eternizar-app php artisan cache:clear
 
 # 6. Limpeza de disco
 echo -e "${BLUE}6. Limpando imagens antigas...${NC}"
