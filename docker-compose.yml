@@ -32,6 +32,23 @@ services:
     depends_on:
       - app
 
+  # Container do Banco de Dados (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    container_name: eternizar-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./docker/postgres/data:/var/var/lib/postgresql/data
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
