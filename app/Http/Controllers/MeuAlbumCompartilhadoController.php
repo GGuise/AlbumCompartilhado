@@ -37,10 +37,10 @@ class MeuAlbumCompartilhadoController extends Controller
     {
         $request->validate([
             'titulo' => 'required|string|max:255',
-            'foto_topo' => 'nullable|image',
-            'foto_topo_web' => 'nullable|image',
-            'foto_topo_mobile' => 'nullable|image',
-            'imagem_fundo' => 'nullable|image',
+            'foto_topo' => 'nullable',
+            'foto_topo_web' => 'nullable',
+            'foto_topo_mobile' => 'nullable',
+            'imagem_fundo' => 'nullable',
             'texto_personalizado' => 'nullable|string',
             'pequena_mensagem' => 'nullable|string',
             'tipo_fundo' => 'nullable|in:cor,imagem',
@@ -104,10 +104,10 @@ class MeuAlbumCompartilhadoController extends Controller
     {
         $request->validate([
             'titulo' => 'required|string|max:255',
-            'foto_topo' => 'nullable|image',
-            'foto_topo_web' => 'nullable|image',
-            'foto_topo_mobile' => 'nullable|image',
-            'imagem_fundo' => 'nullable|image',
+            'foto_topo' => 'nullable',
+            'foto_topo_web' => 'nullable',
+            'foto_topo_mobile' => 'nullable',
+            'imagem_fundo' => 'nullable',
             'texto_personalizado' => 'nullable|string',
             'pequena_mensagem' => 'nullable|string',
             'tipo_fundo' => 'nullable|in:cor,imagem',
