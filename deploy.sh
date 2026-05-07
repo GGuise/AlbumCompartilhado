@@ -5,28 +5,38 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m' # Sem cor
 
-echo -e "${BLUE}===> Iniciando Deploy do Sistema <===${NC}"
+echo -e "${BLUE}===> Iniciando Deploy do Sistema (Versão ARM + Postgres) <===${NC}"
 
-# 1. Puxar a imagem mais recente do GitHub Container Registry
-echo -e "${BLUE}1. Baixando imagem mais recente...${NC}"
-docker compose pull
+# 0. Ajuste de segurança do Git
+git config --global --add safe.directory /home/ubuntu/Eternizar/AlbumCompartilhado
 
-# 2. Reiniciar os containers com a nova imagem
-echo -e "${BLUE}2. Reiniciando containers...${NC}"
-docker compose up -d
+# 1. Sincronizar código com o GitHub
+echo -e "${BLUE}1. Sincronizando código com GitHub...${NC}"
+git fetch origin main
+git reset --hard origin/main
 
-# 3. Rodar migrações do banco de dados (caso haja novos campos)
-echo -e "${BLUE}3. Rodando migrações do banco...${NC}"
+# 2. Construir a imagem localmente (Obrigatório para ARM e para o Driver Postgres)
+echo -e "${BLUE}2. Construindo imagem local (isso pode demorar uns minutos)...${NC}"
+docker compose build --no-cache
+
+# 3. Reiniciar os containers
+echo -e "${BLUE}3. Subindo containers...${NC}"
+docker compose up -d --remove-orphans
+
+# 4. Aguardar o banco e o app estabilizarem
+echo -e "${BLUE}4. Aguardando estabilização (5s)...${NC}"
+sleep 5
+
+# 5. Rodar migrações e limpar caches
+echo -e "${BLUE}5. Executando comandos internos do Laravel...${NC}"
 docker exec laravel-app php artisan migrate --force
-
-# 4. Limpar cache (opcional, ajuda a evitar bugs de config antiga)
-echo -e "${BLUE}4. Limpando caches...${NC}"
 docker exec laravel-app php artisan config:clear
 docker exec laravel-app php artisan view:clear
+docker exec laravel-app php artisan cache:clear
 
-# 5. Limpar imagens antigas (ajuda a não encher o disco do servidor)
-echo -e "${BLUE}5. Limpando imagens órfãs...${NC}"
-docker image prune -f
+# 6. Limpeza de disco
+echo -e "${BLUE}6. Limpando imagens antigas...${NC}"
+docker system prune -f
 
 echo -e "${GREEN}===> DEPLOY FINALIZADO COM SUCESSO! <===${NC}"
 echo -e "${GREEN}Site online em: https://eternizar.gguise.com.br${NC}"
